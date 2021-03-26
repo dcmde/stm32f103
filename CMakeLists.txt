@@ -37,8 +37,6 @@ file(GLOB SPL_SOURCES
 file(GLOB CMSIS_SOURCES
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/TrueSTUDIO/startup_stm32f10x_md.s)
-#file(GLOB DRIVER_SOURCES
-#        lib/drivers/src/*)
 
 # C flags.
 SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -u _printf_float -flto -specs=nano.specs -specs=nosys.specs")
@@ -58,8 +56,6 @@ endif ()
 # Libraries
 add_library(SPL ${SPL_SOURCES})
 add_library(CMSIS ${CMSIS_SOURCES})
-#add_library(DRIVER ${DRIVER_SOURCES})
-#add_library(LIBRARIES ${LIBRAIRIES_SOURCES})
 
 # Executable
 add_executable(${PROJECT_NAME}.elf ${USER_SOURCES})
