@@ -1,0 +1,16 @@
+stlink
+*bin
+CMakeFiles/*
+CMakeCache.txt
+*binary.map
+*.a
+*.elf
+*Makefile
+*build/*
+*cmake_install.cmake
+*.idea/*
+*log
+*.cbp
+*Testing/*
+*cmake-build-debug/
+

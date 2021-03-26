@@ -1,0 +1,50 @@
+# Flash program into the mcu.
+stm-flash(){
+        # Get the .bin file in the build folder.
+        BIN_FILE=$(find ./build -iname '*.bin')
+        # Display info.
+        echo "\e[32mFlashing $BIN_FILE\e[37m"
+        # Kill any instance of openocd running.
+        pkill openocd
+        # Falsh to the MCU.
+        sudo st-flash write $BIN_FILE 0x8000000
+}
+
+stm-log(){
+        # Make the directory if not present.
+        mkdir -p log
+        # Create the name of the file based on the moment the log started. You can add a comment as well to the name of the file.
+        LOG_NAME="./log/$(date +%m:%d:%Y-%T-$1)"
+        # Create the file.
+        touch $LOG_NAME
+        # Display message.
+        echo "\e[32mStart OpenOCD redirect log to : \e[33m$LOG_NAME\e[37m"
+        # Kill any openocd backgorund process.
+        pkill openocd
+        # Start openocd in background and configure it on localhost + send the trace to the file we created.
+        openocd -c "bindto 127.0.0.1" -f $OPENOCD_DIR/interface/stlink-v2.cfg -f $OPENOCD_DIOCD_DIR/target/stm32f1x.cfg -c "tpiu config internal $LOG_NAME uart off 72000000 2000000" -c "itm port 0 on" &
+        # Display info.
+        sleep 0.5
+        echo "\e[32mStart the trace using SWO on file : \e[33m$LOG_NAME"
+        # Start the tracer to display the incomming data.
+        swo-tracer $LOG_NAME
+}
+
+stm-debug(){
+        # Kill any openocd instance running in background.
+        pkill openocd
+        # Start openocd.
+        openocd -c "bindto 127.0.0.1" -f $OPENOCD_DIR/interface/stlink-v2.cfg -f $OPENOCD_DIOCD_DIR/target/stm32f1x.cfg &
+        # Find the .elf file.
+        BIN_FILE=$(find ./cmake-build-debug -iname '*.elf')
+        # Display the name of the .elf file.
+        echo "\e[32m$BIN_FILE\e[37m"
+        # Create the gdb_hisotry file if it does not exist.
+        touch .gdb_history
+        # Add the useful line to quickly connect to openocd.
+        echo "target remote localhost:3333" >> .gdb_history
+        echo "monitor reset halt" >> .gdb_history
+        echo "load" >> .gdb_history
+        # Start gdb.
+        gdb-multiarch $BIN_FILE
+}
