@@ -1,7 +1,7 @@
-#include <stm32tasks.hpp>
+#include <microSdTask.hpp>
 
 int main() {
-    xTaskCreate(my_task, "task", 128, nullptr, 1, nullptr);
+    xTaskCreate(microSdTask, "microSd", 128, nullptr, 1, nullptr);
     vTaskStartScheduler();
     return 0;
 }

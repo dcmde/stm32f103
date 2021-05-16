@@ -1,5 +1,5 @@
 #include <misc.h>
-#include "stm32tasks.hpp"
+#include "microSdTask.hpp"
 #include "timer.hpp"
 #include "gpio.hpp"
 
@@ -16,7 +16,7 @@ void TIM2_IRQHandler(void) {
 }
 }
 
-[[noreturn]] void my_task(void *p) {
+[[noreturn]] void microSdTask(void *p) {
 
     Gpio::setPin(A6, GPIO_Mode_Out_PP);
     Timer::set(TIM2, Div_1, 7200, 100, Up);
