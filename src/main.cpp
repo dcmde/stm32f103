@@ -1,12 +1,7 @@
-#include "stm32tasks.hpp"
-
-struct Parameters param;
+#include <stm32tasks.hpp>
 
 int main() {
-
-    xTaskCreate(my_task, "task", 128, (void *) &param, 1, nullptr);
-
+    xTaskCreate(my_task, "task", 128, nullptr, 1, nullptr);
     vTaskStartScheduler();
-
     return 0;
 }
