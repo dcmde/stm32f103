@@ -16,6 +16,7 @@ project(template C CXX ASM)
 # Header files directory
 include_directories(include
         lib/FreeRTOS-Kernel/include
+        lib/drivers/include/ff11
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/STM32F10x_StdPeriph_Driver/inc
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/CoreSupport
@@ -28,6 +29,7 @@ file(GLOB USER_SOURCES
         src/*
         lib/stm32f1_hal/src/*.c
         lib/stm32f1_hal/src/*.cpp
+        lib/drivers/src/ff11/*.c
         lib/FreeRTOS-Kernel/*.c
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/*.c)
 file(GLOB SPL_SOURCES
