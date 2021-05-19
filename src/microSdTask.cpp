@@ -1,20 +1,13 @@
+#include <cstdio>
+#include <diskio.h>
+#include <FreeRTOS.h>
+#include <ff.h>
+#include <gpio.hpp>
 #include <misc.h>
 #include <spi.h>
-#include <cstdio>
-#include <gpio.hpp>
-#include "task/microSdTask.hpp"
-#include "timer.hpp"
-#include "ff.h"
-#include "diskio.h"
-
-extern "C" {
-void TIM2_IRQHandler(void) {
-    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) {
-        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-        disk_timerproc();
-    }
-}
-}
+#include <task.h>
+#include <task/microSdTask.hpp>
+#include <timer.hpp>
 
 FATFS FatFs;
 FIL fil;
