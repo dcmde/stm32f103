@@ -11,19 +11,27 @@
 
 FATFS FatFs;
 FIL fil;
+SPI_t *spi_miroSd;
 
 [[noreturn]] void microSdTask(void *p) {
-
+    SPI_t spi;
     // Configure 10ms interrupt.
     Timer::set(TIM2, Div_1, 7200, 100, Up);
     Timer::setTimerInterrupt(TIM2, TIM2_IRQn, Update);
     Gpio::setPin(C13, GPIO_Mode_Out_PP);
 
-    init_spi(SPI1, 0);
+    spi.SPIx = SPI2;
+    spi.GPIOx = GPIOB;
+    spi.mode = MASTER;
+    spi.NSS_PIN = GPIO_Pin_12;
+    init_spi(&spi);
+
+    spi_miroSd = &spi;
+
     vTaskDelay(1000);
 
     if (f_mount(&FatFs, "0", 1) == FR_OK) {
-        if (f_open(&fil, "1stfile.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
+        if (f_open(&fil, "23stfile.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
             if (f_puts("First string in my file\n", &fil) > 0) {
                 printf("write\n");
             }
@@ -35,10 +43,8 @@ FIL fil;
     while (1) {
         vTaskDelay(1000);
         Gpio::pinHigh(C13);
-        spi_slave_enable();
         vTaskDelay(1000);
         Gpio::pinLow(C13);
-        spi_slave_disable();
 
     }
 }
