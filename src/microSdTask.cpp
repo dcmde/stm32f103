@@ -8,6 +8,7 @@
 #include <task.h>
 #include <task/microSdTask.hpp>
 #include <timer.hpp>
+#include "diskio-spi-wrapper.h"
 
 FATFS FatFs;
 FIL fil;
@@ -19,11 +20,20 @@ FIL fil;
     Timer::setTimerInterrupt(TIM2, TIM2_IRQn, Update);
     Gpio::setPin(C13, GPIO_Mode_Out_PP);
 
-    init_spi(SPI1, 0);
+    SPI_t spi;
+    spi.mode = MASTER;
+    spi.SPIx = SPI2;
+    spi.NSS_PIN = GPIO_Pin_12;
+    spi.GPIOx = GPIOB;
+
+    init_spi(&spi);
+
+    spi_microSd = &spi;
+
     vTaskDelay(1000);
 
     if (f_mount(&FatFs, "0", 1) == FR_OK) {
-        if (f_open(&fil, "1stfile.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
+        if (f_open(&fil, "stfile.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
             if (f_puts("First string in my file\n", &fil) > 0) {
                 printf("write\n");
             }
@@ -35,10 +45,8 @@ FIL fil;
     while (1) {
         vTaskDelay(1000);
         Gpio::pinHigh(C13);
-        spi_slave_enable();
         vTaskDelay(1000);
         Gpio::pinLow(C13);
-        spi_slave_disable();
 
     }
 }
