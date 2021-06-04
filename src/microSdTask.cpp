@@ -8,10 +8,10 @@
 #include <task.h>
 #include <task/microSdTask.hpp>
 #include <timer.hpp>
+#include "diskio-spi-wrapper.h"
 
 FATFS FatFs;
 FIL fil;
-SPI_t *spi_miroSd;
 
 [[noreturn]] void microSdTask(void *p) {
     SPI_t spi;
@@ -31,7 +31,7 @@ SPI_t *spi_miroSd;
     vTaskDelay(1000);
 
     if (f_mount(&FatFs, "0", 1) == FR_OK) {
-        if (f_open(&fil, "23stfile.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
+        if (f_open(&fil, "stfile.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
             if (f_puts("First string in my file\n", &fil) > 0) {
                 printf("write\n");
             }
