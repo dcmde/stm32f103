@@ -27,24 +27,25 @@ include_directories(include
 # Source files directory
 SET(USER_SOURCES
         src/main.cpp
-        src/heap_4.c
-        src/interrupts.cpp
-        src/microSdTask.cpp
-        src/timerTask.cpp
-        lib/stm32f1_hal/src/gpio.cpp
-        lib/stm32f1_hal/src/timer.cpp
-        lib/stm32f1_hal/src/spi.c
-        lib/drivers/src/ff11/ff.c
-        lib/drivers/src/ff11/diskio.c
-        lib/drivers/src/ff11/diskio-spi-wrapper.c
-        lib/FreeRTOS-Kernel/croutine.c
-        lib/FreeRTOS-Kernel/event_groups.c
-        lib/FreeRTOS-Kernel/list.c
-        lib/FreeRTOS-Kernel/queue.c
-        lib/FreeRTOS-Kernel/stream_buffer.c
-        lib/FreeRTOS-Kernel/tasks.c
-        lib/FreeRTOS-Kernel/timers.c
-        lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/port.c
+#        src/heap_4.c
+#        src/interrupts.cpp
+#        src/microSdTask.cpp
+#        src/timerTask.cpp
+#        lib/stm32f1_hal/src/gpio.cpp
+#        lib/stm32f1_hal/src/timer.cpp
+#        lib/stm32f1_hal/src/spi.c
+        lib/stm32f1_hal/src/stm32f103_dbg.c
+#        lib/drivers/src/ff11/ff.c
+#        lib/drivers/src/ff11/diskio.c
+#        lib/drivers/src/ff11/diskio-spi-wrapper.c
+#        lib/FreeRTOS-Kernel/croutine.c
+#        lib/FreeRTOS-Kernel/event_groups.c
+#        lib/FreeRTOS-Kernel/list.c
+#        lib/FreeRTOS-Kernel/queue.c
+#        lib/FreeRTOS-Kernel/stream_buffer.c
+#        lib/FreeRTOS-Kernel/tasks.c
+#        lib/FreeRTOS-Kernel/timers.c
+#        lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/port.c
         )
 
 SET(SPL_SOURCES
@@ -78,8 +79,8 @@ SET(CMSIS_SOURCES
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/TrueSTUDIO/startup_stm32f10x_md.s)
 
 # C flags with and without printf
-#SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -u _printf_float -flto -specs=nano.specs -specs=nosys.specs")
-SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -flto -specs=nano.specs -specs=nosys.specs")
+SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -u _printf_float -flto -specs=nano.specs -specs=nosys.specs")
+#SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -flto -specs=nano.specs -specs=nosys.specs")
 
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -std=c++11")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS} -std=gnu99")
