@@ -34,7 +34,7 @@ SET(USER_SOURCES
 #        lib/stm32f1_hal/src/gpio.cpp
 #        lib/stm32f1_hal/src/timer.cpp
 #        lib/stm32f1_hal/src/spi.c
-#        lib/stm32f1_hal/src/stm32f103_dbg.c
+        lib/stm32f1_hal/src/stm32f103_dbg.c
 #        lib/drivers/src/ff11/ff.c
 #        lib/drivers/src/ff11/diskio.c
 #        lib/drivers/src/ff11/diskio-spi-wrapper.c
@@ -79,8 +79,8 @@ SET(CMSIS_SOURCES
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/TrueSTUDIO/startup_stm32f10x_md.s)
 
 # C flags with and without printf
-#SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -u _printf_float -flto -specs=nano.specs -specs=nosys.specs")
-SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -flto -specs=nano.specs -specs=nosys.specs")
+SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -u _printf_float -flto -specs=nano.specs -specs=nosys.specs")
+#SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -flto -specs=nano.specs -specs=nosys.specs")
 
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -std=c++11")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS} -std=gnu99")

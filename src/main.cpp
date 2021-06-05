@@ -1,6 +1,6 @@
-//#include <cstdio>
+#include <cstdio>
 
 int main() {
-//    printf("hello\n");
+    printf("hello\n");
     return 0;
 }
