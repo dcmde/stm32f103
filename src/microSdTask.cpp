@@ -9,6 +9,7 @@
 #include <task/microSdTask.hpp>
 #include <timer.hpp>
 #include "diskio-spi-wrapper.h"
+#include <bme280.h>
 
 FATFS FatFs;
 FIL fil;
@@ -25,6 +26,7 @@ FIL fil;
     spi.mode = MASTER;
     spi.NSS_PIN = GPIO_Pin_12;
     init_spi(&spi);
+    init_spi_pin(&spi);
 
     spi_miroSd = &spi;
 
