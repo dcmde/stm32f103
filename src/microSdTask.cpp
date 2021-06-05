@@ -1,5 +1,3 @@
-#include <cstdio>
-#include <diskio.h>
 #include <FreeRTOS.h>
 #include <ff.h>
 #include <gpio.hpp>
@@ -16,6 +14,7 @@ FIL fil;
 
 [[noreturn]] void microSdTask(void *p) {
     SPI_t spi;
+
     // Configure 10ms interrupt.
     Timer::set(TIM2, Div_1, 7200, 100, Up);
     Timer::setTimerInterrupt(TIM2, TIM2_IRQn, Update);
@@ -34,9 +33,7 @@ FIL fil;
 
     if (f_mount(&FatFs, "0", 1) == FR_OK) {
         if (f_open(&fil, "stfile.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
-            if (f_puts("First string in my file\n", &fil) > 0) {
-                printf("write\n");
-            }
+            if (f_puts("First string in my file\n", &fil) > 0) {}
             f_close(&fil);
         }
         f_mount(0, "", 1);
