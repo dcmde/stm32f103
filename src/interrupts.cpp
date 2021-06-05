@@ -1,6 +1,6 @@
-#include <diskio.h>
-#include <stm32f10x.h>
-#include <stm32f10x_tim.h>
+//#include <diskio.h>
+//#include <stm32f10x.h>
+//#include <stm32f10x_tim.h>
 
 extern "C" {
 
@@ -54,10 +54,10 @@ void TIM1_TRG_COM_IRQHandler(void) {}
 void TIM1_CC_IRQHandler(void) {}
 
 void TIM2_IRQHandler(void) {
-    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) {
-        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-        disk_timerproc();
-    }
+//    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) {
+//        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+////        disk_timerproc();
+//    }
 }
 
 void TIM3_IRQHandler(void) {}
