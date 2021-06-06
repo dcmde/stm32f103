@@ -38,6 +38,7 @@ SET(USER_SOURCES
         lib/drivers/src/ff11/ff.c
         lib/drivers/src/ff11/diskio.c
         lib/drivers/src/ff11/diskio-spi-wrapper.c
+        lib/drivers/src/bme280.c
         lib/FreeRTOS-Kernel/croutine.c
         lib/FreeRTOS-Kernel/event_groups.c
         lib/FreeRTOS-Kernel/list.c
