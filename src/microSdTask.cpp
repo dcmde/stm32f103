@@ -9,31 +9,36 @@
 #include "diskio-spi-wrapper.h"
 #include <bme280.h>
 #include <cstring>
-#include "bme280.h"
+#include <cstdio>
 
 FATFS FatFs;
 FIL fil;
 SPI_t spi_bme;
 
 uint8_t interfaceReadRegister(uint8_t register_address) {
-    uint8_t data;
+    uint8_t buffer[2];
+    buffer[0] = register_address | 0x80;
+    buffer[1] = 0xFE;
     spi_slave_enable(&spi_bme);
-    data = spi_send_receive(&spi_bme, register_address);
+    spi_buffer_send_receive(&spi_bme, buffer, 2);
     spi_slave_disable(&spi_bme);
-    return data;
+    return buffer[1];
 }
 
 void interfaceReadRegisters(uint8_t register_address, uint8_t *buffer, uint8_t size) {
     uint8_t temp[size + 1];
-    temp[0] = register_address;
+    temp[0] = register_address | 0x80;
     memcpy(temp + 1, buffer, size);
     spi_slave_enable(&spi_bme);
-    spi_buffer_send_receive(&spi_bme, buffer, size);
+    spi_buffer_send_receive(&spi_bme, temp, size);
+    memcpy(buffer, temp + 1, size);
     spi_slave_disable(&spi_bme);
 }
 
 void interfaceWriteRegisters(uint8_t register_address, uint8_t value) {
-    uint8_t buffer[2] = {register_address, value};
+    uint8_t buffer[2];
+    buffer[0] = register_address & ~0x80;
+    buffer[1] = value;
     spi_slave_enable(&spi_bme);
     spi_buffer_send_receive(&spi_bme, buffer, 2);
     spi_slave_disable(&spi_bme);
@@ -62,6 +67,8 @@ void interfaceWriteRegisters(uint8_t register_address, uint8_t value) {
 
     spi_miroSd = &spi;
 
+    printf("SPI OK\n");
+
     bme.initStruct.OVS_H = OVS_H_1;
     bme.initStruct.OVS_P = OVS_P_1;
     bme.initStruct.OVS_T = OVS_T_1;
@@ -71,9 +78,17 @@ void interfaceWriteRegisters(uint8_t register_address, uint8_t value) {
     bme.ReadRegisters = &interfaceReadRegisters;
     bme.WriteRegister = &interfaceWriteRegisters;
 
-    BME280_Init(&bme);
+    printf("Init BME\n");
+    if (BME280_Init(&bme)) {
+        printf("Init BME KO\n");
+        while (1);
+    } else {
+        printf("Init BME OK\n");
+    }
+
     BME280_ReadConfigurationParameters(&bme);
     BME280_ReadSensors(&bme);
+    printf("Temp %i\n", (int) bme.sensorsValues.Temp);
 
     vTaskDelay(1000);
 
@@ -88,8 +103,12 @@ void interfaceWriteRegisters(uint8_t register_address, uint8_t value) {
     while (1) {
         vTaskDelay(1000);
         Gpio::pinHigh(C13);
+        spi_slave_enable(&spi_bme);
+
         vTaskDelay(1000);
         Gpio::pinLow(C13);
+        spi_slave_disable(&spi_bme);
+
 
     }
 }
