@@ -18,17 +18,17 @@ FIL fil;
 SPI_t spi_bme;
 I2C_t i2c;
 
-//uint8_t interfaceReadRegister(uint8_t register_address) {
-//    return I2C_ReadByte(&i2c, register_address);
-//}
-//
-//void interfaceReadRegisters(uint8_t register_address, uint8_t *buffer, uint8_t size) {
-//    I2C_ReadBuffer(&i2c, register_address, buffer, size);
-//}
-//
-//void interfaceWriteRegister(uint8_t register_address, uint8_t value) {
-//    I2C_WriteByte(&i2c, register_address, value);
-//}
+uint8_t interfaceReadRegister(uint8_t register_address) {
+    return I2C_ReadByte(&i2c, BME280_I2C_ADDR_0x76, register_address);
+}
+
+void interfaceReadRegisters(uint8_t register_address, uint8_t *buffer, uint8_t size) {
+    I2C_ReadBuffer(&i2c, BME280_I2C_ADDR_0x76, register_address, buffer, size);
+}
+
+void interfaceWriteRegister(uint8_t register_address, uint8_t value) {
+    I2C_WriteByte(&i2c, BME280_I2C_ADDR_0x76, register_address, value);
+}
 
 ERROR_t ReadBuffer(uint8_t reg_addr, uint8_t *buffer, uint8_t size) {
     I2C_ReadBuffer(&i2c, MPU6050_I2C_ADDR_0x68, reg_addr, buffer, size);
@@ -53,8 +53,8 @@ ERROR_t WriteBuffer(uint8_t reg_addr, uint8_t *buffer, uint8_t size) {
     i2c.own_dev_addr = 0x02;
 
     I2C_Initialization(&i2c);
-    MPU6050_Init(&mpu6050);
 
+    MPU6050_Init(&mpu6050);
     MPU6050_ReadAccel(&mpu6050);
     MPU6050_ReadGyro(&mpu6050);
 
@@ -65,22 +65,20 @@ ERROR_t WriteBuffer(uint8_t reg_addr, uint8_t *buffer, uint8_t size) {
     Timer::set(TIM2, Div_1, 7200, 100, Up);
     Timer::setTimerInterrupt(TIM2, TIM2_IRQn, Update);
     Gpio::setPin(C13, GPIO_Mode_Out_PP);
-/*
-    spi.SPIx = SPI2;
-    spi.GPIOx = GPIOB;
-    spi.mode = MASTER;
-    spi.NSS_PIN = GPIO_Pin_12;
 
-    spi_bme = spi;
-    spi_bme.NSS_PIN = GPIO_Pin_10;
-
-    SPI_Initialization(&spi);
-    SPI_InitPin(&spi);
-    SPI_InitPin(&spi_bme);
-
-    spi_miroSd = &spi;
-
-    printf("SPI OK\n");
+//    spi.SPIx = SPI2;
+//    spi.GPIOx = GPIOB;
+//    spi.mode = MASTER;
+//    spi.NSS_PIN = GPIO_Pin_12;
+//
+//    spi_bme = spi;
+//    spi_bme.NSS_PIN = GPIO_Pin_10;
+//
+//    SPI_Initialization(&spi);
+//    SPI_InitPin(&spi);
+//    SPI_InitPin(&spi_bme);
+//
+//    spi_miroSd = &spi;
 
     bme.initStruct.OVS_H = OVS_H_1;
     bme.initStruct.OVS_P = OVS_P_1;
@@ -113,30 +111,30 @@ ERROR_t WriteBuffer(uint8_t reg_addr, uint8_t *buffer, uint8_t size) {
         printf("Hum %i\n", (int) bme.sensorsValues.Hum);
     }
 
-    if (f_mount(&FatFs, "0", 1) == FR_OK) {
-        if (f_open(&fil, "data.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
-            if (f_puts("Temp Hum Pres\n", &fil) < 0) {
-                printf("Cannot print to file\n");
-            }
-            for (uint32_t i = 0; i < 10; ++i) {
+//    if (f_mount(&FatFs, "0", 1) == FR_OK) {
+//        if (f_open(&fil, "data.txt", FA_OPEN_ALWAYS | FA_READ | FA_WRITE) == FR_OK) {
+//            if (f_puts("Temp Hum Pres\n", &fil) < 0) {
+//                printf("Cannot print to file\n");
+//            }
+//            for (uint32_t i = 0; i < 10; ++i) {
+//
+//                vTaskDelay(5000);
+//                BME280_ReadSensors(&bme);
+//                sprintf(buffer, "%li %lui %lui\n",
+//                        bme.sensorsValues.Temp,
+//                        bme.sensorsValues.Hum,
+//                        bme.sensorsValues.Pres);
+//                if (f_puts(buffer, &fil) < 0) {
+//                    f_close(&fil);
+//                    printf("Print error\n");
+//                    break;
+//                }
+//                printf(buffer);
+//            }
+//        }
+//        f_mount(0, "", 1);
+//    }
 
-                vTaskDelay(5000);
-                BME280_ReadSensors(&bme);
-                sprintf(buffer, "%li %lui %lui\n",
-                        bme.sensorsValues.Temp,
-                        bme.sensorsValues.Hum,
-                        bme.sensorsValues.Pres);
-                if (f_puts(buffer, &fil) < 0) {
-                    f_close(&fil);
-                    printf("Print error\n");
-                    break;
-                }
-                printf(buffer);
-            }
-        }
-        f_mount(0, "", 1);
-    }
-*/
     // main loop
     while (1) {
         vTaskDelay(1000);
