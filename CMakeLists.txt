@@ -35,10 +35,12 @@ SET(USER_SOURCES
         lib/stm32f1_hal/src/gpio.cpp
         lib/stm32f1_hal/src/timer.cpp
         lib/stm32f1_hal/src/spi.c
+        lib/stm32f1_hal/src/i2c.c
         lib/drivers/src/ff11/ff.c
         lib/drivers/src/ff11/diskio.c
         lib/drivers/src/ff11/diskio-spi-wrapper.c
         lib/drivers/src/bme280.c
+        lib/drivers/src/mpu6050.c
         lib/FreeRTOS-Kernel/croutine.c
         lib/FreeRTOS-Kernel/event_groups.c
         lib/FreeRTOS-Kernel/list.c
