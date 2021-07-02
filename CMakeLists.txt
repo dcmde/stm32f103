@@ -33,7 +33,7 @@ SET(USER_SOURCES
         src/timerTask.cpp
         lib/stm32f1_hal/src/stm32f103_dbg.c
         lib/stm32f1_hal/src/gpio.cpp
-        lib/stm32f1_hal/src/timer.cpp
+        lib/stm32f1_hal/src/timer.c
         lib/stm32f1_hal/src/spi.c
         lib/stm32f1_hal/src/i2c.c
         lib/drivers/src/ff11/ff.c

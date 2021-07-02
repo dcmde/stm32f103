@@ -6,7 +6,7 @@
 #include <i2c.h>
 #include <task.h>
 #include <task/microSdTask.hpp>
-#include <timer.hpp>
+#include <timer.h>
 #include "diskio-spi-wrapper.h"
 #include <bme280.h>
 #include <mpu6050.h>
@@ -60,11 +60,6 @@ ERROR_t WriteBuffer(uint8_t reg_addr, uint8_t *buffer, uint8_t size) {
 
     printf("%i %i %i\n", mpu6050.accel[0], mpu6050.accel[1], mpu6050.accel[2]);
     printf("%i %i %i\n", mpu6050.gyro[0], mpu6050.gyro[1], mpu6050.gyro[2]);
-
-    // Configure 10ms interrupt.
-    Timer::set(TIM2, Div_1, 7200, 100, Up);
-    Timer::setTimerInterrupt(TIM2, TIM2_IRQn, Update);
-    Gpio::setPin(C13, GPIO_Mode_Out_PP);
 
 //    spi.SPIx = SPI2;
 //    spi.GPIOx = GPIOB;
