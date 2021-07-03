@@ -15,6 +15,7 @@ project(template C CXX ASM)
 
 # Header files directory
 include_directories(include
+        lib/HC_12/include
         lib/FreeRTOS-Kernel/include
         lib/drivers/include/ff11
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/
@@ -33,11 +34,13 @@ SET(USER_SOURCES
         src/ctrlTask.cpp
         src/comTask.cpp
         src/variables.c
+        lib/HC_12/hc12.c
         lib/stm32f1_hal/src/stm32f103_dbg.c
         lib/stm32f1_hal/src/gpio.cpp
         lib/stm32f1_hal/src/timer.c
         lib/stm32f1_hal/src/spi.c
         lib/stm32f1_hal/src/i2c.c
+        lib/stm32f1_hal/src/usart.c
         lib/drivers/src/ff11/ff.c
         lib/drivers/src/ff11/diskio.c
         lib/drivers/src/ff11/diskio-spi-wrapper.c

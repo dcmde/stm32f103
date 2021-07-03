@@ -1,6 +1,8 @@
-#include <diskio.h>
+//#include <diskio.h>
 #include <stm32f10x.h>
-#include <stm32f10x_tim.h>
+//#include <stm32f10x_tim.h>
+#include <stm32f10x_usart.h>
+#include <task/variables.h>
 
 extern "C" {
 
@@ -54,10 +56,10 @@ void TIM1_TRG_COM_IRQHandler(void) {}
 void TIM1_CC_IRQHandler(void) {}
 
 void TIM2_IRQHandler(void) {
-    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) {
-        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-        disk_timerproc();
-    }
+//    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) {
+//        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+//        disk_timerproc();
+//    }
 }
 
 void TIM3_IRQHandler(void) {}
@@ -69,7 +71,14 @@ void I2C2_ER_IRQHandler(void) {}
 void SPI1_IRQHandler(void) {}
 void SPI2_IRQHandler(void) {}
 void USART1_IRQHandler(void) {}
-void USART2_IRQHandler(void) {}
+
+void USART2_IRQHandler(void) {
+    if (USART_GetITStatus(USART2, USART_IT_RXNE)) {
+        USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+        xQueueSendFromISR(uartQueue, (void *) &USART2->DR, NULL);
+    }
+}
+
 void USART3_IRQHandler(void) {}
 void RTCAlarm_IRQHandler(void) {}
 

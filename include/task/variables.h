@@ -9,6 +9,7 @@ extern "C" {
 #endif
 
 extern QueueHandle_t refQueue;
+extern QueueHandle_t uartQueue;
 
 #ifdef __cplusplus
 }
