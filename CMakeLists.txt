@@ -30,7 +30,9 @@ SET(USER_SOURCES
         src/heap_4.c
         src/interrupts.cpp
         src/microSdTask.cpp
-        src/CtrlTask.cpp
+        src/ctrlTask.cpp
+        src/comTask.cpp
+        src/variables.c
         lib/stm32f1_hal/src/stm32f103_dbg.c
         lib/stm32f1_hal/src/gpio.cpp
         lib/stm32f1_hal/src/timer.c

@@ -1,6 +1,6 @@
 #include <FreeRTOS.h>
 #include <task.h>
-#include "task/CtrlTask.hpp"
+#include "task/ctrlTask.hpp"
 #include "timer.h"
 #include "gpio.hpp"
 
@@ -16,6 +16,13 @@ void ctrl_config_pins();
     int8_t speed = 0;
 
     while (1) {
+
+        if (refQueue != 0) {
+            if (!xQueueReceive(refQueue, (void *) &speed, (TickType_t) 0)) {
+                // Handle error.
+            }
+        }
+
         if (speed < 0) {
             timer_setChannelPulse(TIM3, Channel_1, 0);
             timer_setChannelPulse(TIM3, Channel_2, 128 + speed);
@@ -28,7 +35,6 @@ void ctrl_config_pins();
             timer_setChannelPulse(TIM3, Channel_4, 0);
         }
         vTaskDelay(50);
-        ++speed;
     }
 }
 
