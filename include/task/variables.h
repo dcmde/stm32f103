@@ -10,6 +10,8 @@ extern "C" {
 
 extern QueueHandle_t refQueue;
 extern QueueHandle_t uartQueue;
+extern TaskHandle_t comTaskHandle;
+extern TaskHandle_t ctrlTaskHandle;
 
 #ifdef __cplusplus
 }
