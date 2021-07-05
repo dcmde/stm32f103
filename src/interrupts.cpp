@@ -2,7 +2,9 @@
 #include <stm32f10x.h>
 //#include <stm32f10x_tim.h>
 #include <stm32f10x_usart.h>
+#include <stm32f10x_dma.h>
 #include <task/variables.h>
+#include <cstdio>
 
 extern "C" {
 
@@ -43,7 +45,18 @@ void DMA1_Channel2_IRQHandler(void) {}
 void DMA1_Channel3_IRQHandler(void) {}
 void DMA1_Channel4_IRQHandler(void) {}
 void DMA1_Channel5_IRQHandler(void) {}
-void DMA1_Channel6_IRQHandler(void) {}
+
+void DMA1_Channel6_IRQHandler(void) {
+    printf("DMA IT\n");
+    if (DMA_GetITStatus(DMA1_IT_TC6) != RESET) {
+        dma_ht_flag = 0;
+        printf("TC\n");
+    } else if (DMA_GetITStatus(DMA1_IT_HT6) != RESET) {
+        printf("HT\n");
+        dma_ht_flag = 1;
+    }
+}
+
 void DMA1_Channel7_IRQHandler(void) {}
 void ADC1_2_IRQHandler(void) {}
 void USB_HP_CAN1_TX_IRQHandler(void) {}
@@ -73,13 +86,19 @@ void SPI2_IRQHandler(void) {}
 void USART1_IRQHandler(void) {}
 
 void USART2_IRQHandler(void) {
-    if (USART_GetITStatus(USART2, USART_IT_RXNE)) {
-        USART_ClearITPendingBit(USART2, USART_IT_RXNE);
-        xQueueSendFromISR(uartQueue, (void *) &USART2->DR, NULL);
+    if (USART_GetITStatus(USART2, USART_IT_IDLE)) {
+        USART_ClearITPendingBit(USART2, USART_IT_IDLE);
+//        xTaskNotify();
     }
 }
 
-void USART3_IRQHandler(void) {}
+void USART3_IRQHandler(void) {
+    if (USART_GetITStatus(USART3, USART_IT_IDLE)) {
+        USART_ClearITPendingBit(USART3, USART_IT_IDLE);
+
+    }
+}
+
 void RTCAlarm_IRQHandler(void) {}
 
 }

@@ -12,6 +12,7 @@ extern QueueHandle_t refQueue;
 extern QueueHandle_t uartQueue;
 extern TaskHandle_t comTaskHandle;
 extern TaskHandle_t ctrlTaskHandle;
+extern volatile uint8_t dma_ht_flag;
 
 #ifdef __cplusplus
 }
