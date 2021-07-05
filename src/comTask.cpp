@@ -8,8 +8,8 @@
 
 void configure_DMA();
 
-uint32_t bufferSize = 5;
-char nmeaBuffer[5];
+uint32_t bufferSize = 6;
+char nmeaBuffer[6];
 
 [[noreturn]] void comTask(void *p) {
     int8_t speed = 0;
@@ -21,19 +21,15 @@ char nmeaBuffer[5];
     Gpio::setPin(A3, GPIO_Mode_IN_FLOATING);
 
     uart_configure(USART2, 9600);
-//    uart_configure_interrupt(USART2, USART2_IRQn, USART_IT_IDLE);
-
+    uart_configure_interrupt(USART2, USART2_IRQn, USART_IT_IDLE);
     configure_DMA();
 
     while (1) {
-//        while (DMA_GetFlagStatus(DMA1_FLAG_TC6) == RESET) {}
-        printf("Buf %s\n", nmeaBuffer);
 //        if (uartQueue != 0) {
 //            if (xQueueReceive(uartQueue, &val, (TickType_t) 0)) {
 //
 //            }
 //        }
-//        xQueueSend(refQueue, (void *) &speed, (TickType_t) 0);
         vTaskDelay(500);
     }
 }
@@ -46,9 +42,10 @@ void configure_DMA() {
 
     nvicInitStruct.NVIC_IRQChannelSubPriority = 0;
     nvicInitStruct.NVIC_IRQChannel = DMA1_Channel6_IRQn;
-    nvicInitStruct.NVIC_IRQChannelPreemptionPriority = 0;
+    nvicInitStruct.NVIC_IRQChannelPreemptionPriority = 4;
     nvicInitStruct.NVIC_IRQChannelCmd = ENABLE;
-//    NVIC_Init(&nvicInitStruct);
+    NVIC_Init(&nvicInitStruct);
+    NVIC_EnableIRQ(DMA1_Channel6_IRQn);
 
     DMA_DeInit(DMA1_Channel6);
     DMA_InitStructure.DMA_BufferSize = bufferSize;
@@ -63,8 +60,7 @@ void configure_DMA() {
     DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
     DMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
     DMA_Init(DMA1_Channel6, &DMA_InitStructure);
-    DMA_ITConfig(DMA1_Channel6, DMA1_IT_TC6 | DMA1_IT_HT6, ENABLE);
-
+    DMA1_Channel6->CCR |= (DMA_CCR6_TCIE | DMA_CCR6_HTIE);
     DMA_Cmd(DMA1_Channel6, ENABLE);
     USART_DMACmd(USART2, USART_DMAReq_Rx, ENABLE);
 

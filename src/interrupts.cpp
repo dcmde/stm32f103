@@ -47,12 +47,11 @@ void DMA1_Channel4_IRQHandler(void) {}
 void DMA1_Channel5_IRQHandler(void) {}
 
 void DMA1_Channel6_IRQHandler(void) {
-    printf("DMA IT\n");
     if (DMA_GetITStatus(DMA1_IT_TC6) != RESET) {
+        SET_BIT(DMA1->IFCR, DMA_IFCR_CTCIF6);
         dma_ht_flag = 0;
-        printf("TC\n");
     } else if (DMA_GetITStatus(DMA1_IT_HT6) != RESET) {
-        printf("HT\n");
+        SET_BIT(DMA1->IFCR, DMA_IFCR_CHTIF6);
         dma_ht_flag = 1;
     }
 }
@@ -86,9 +85,8 @@ void SPI2_IRQHandler(void) {}
 void USART1_IRQHandler(void) {}
 
 void USART2_IRQHandler(void) {
-    if (USART_GetITStatus(USART2, USART_IT_IDLE)) {
-        USART_ClearITPendingBit(USART2, USART_IT_IDLE);
-//        xTaskNotify();
+    if (USART_GetITStatus(USART2, USART_IT_IDLE) != RESET) {
+        USART2->DR;
     }
 }
 
