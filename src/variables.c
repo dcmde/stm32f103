@@ -4,4 +4,6 @@ TaskHandle_t gpsTaskHandle;
 StaticTask_t gpsTaskBuffer;
 StackType_t gpsTaskStack[STACK_SIZE];
 
-TaskHandle_t ctrlTaskHandle = NULL;
+TaskHandle_t ctrlTaskHandle;
+StaticTask_t ctrlTaskBuffer;
+StackType_t ctrlTaskStack[STACK_SIZE];

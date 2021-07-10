@@ -16,6 +16,8 @@ extern StackType_t gpsTaskStack[];
 extern StaticTask_t gpsTaskBuffer;
 
 extern TaskHandle_t ctrlTaskHandle;
+extern StackType_t ctrlTaskStack[];
+extern StaticTask_t ctrlTaskBuffer;
 
 #ifdef __cplusplus
 }
