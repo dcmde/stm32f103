@@ -1,6 +1,6 @@
 #include <stm32f10x_dma.h>
+#include <nmea.h>
 #include "task/gpsTask.hpp"
-#include "hc12.h"
 #include "usart.h"
 #include "gpio.hpp"
 
@@ -11,6 +11,7 @@ char nmeaBuffer[gps_buffer_len], tempBuffer[gps_buffer_len];
 
 [[noreturn]] void gpsTask(void *p) {
     uint8_t gps_buffer_head = (gps_buffer_len - 1), gps_buffer_tail;
+    gpggl_t gpggl;
 
     Gpio::setPin(A3, GPIO_Mode_IN_FLOATING);
 
@@ -24,8 +25,11 @@ char nmeaBuffer[gps_buffer_len], tempBuffer[gps_buffer_len];
             gps_buffer_head = gps_buffer_len - DMA1_Channel6->CNDTR - 1;
             if (nmeaBuffer[gps_buffer_head] == '\n' && nmeaBuffer[gps_buffer_tail] == '$') {
                 uint8_t j = 0;
-                for (uint8_t i = gps_buffer_tail; i != gps_buffer_head; i = (i + 1) % gps_buffer_len) {
-                    tempBuffer[j++] = nmeaBuffer[i];
+                if (nmeaBuffer[(gps_buffer_tail + 4) % gps_buffer_len] == 'L') {
+                    for (uint8_t i = gps_buffer_tail; i != gps_buffer_head; i = (i + 1) % gps_buffer_len) {
+                        tempBuffer[j++] = nmeaBuffer[i];
+                    }
+                    nmea_decode_gpggl(&gpggl, tempBuffer, j);
                 }
             }
         }

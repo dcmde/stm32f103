@@ -16,6 +16,7 @@ project(template C CXX ASM)
 # Header files directory
 include_directories(include
         lib/HC_12/include
+        lib/nmea/include
         lib/FreeRTOS-Kernel/include
 #        lib/drivers/include/ff11
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/
@@ -35,6 +36,7 @@ SET(USER_SOURCES
         src/gpsTask.cpp
         src/variables.c
         lib/HC_12/hc12.c
+        lib/nmea/src/nmea.c
         lib/stm32f1_hal/src/stm32f103_dbg.c
         lib/stm32f1_hal/src/gpio.cpp
         lib/stm32f1_hal/src/timer.c
