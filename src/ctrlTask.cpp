@@ -17,11 +17,11 @@ void ctrl_config_pins();
 
     while (1) {
 
-        if (refQueue != 0) {
-            if (!xQueueReceive(refQueue, (void *) &speed, (TickType_t) 0)) {
-                // Handle error.
-            }
-        }
+//        if (refQueue != 0) {
+//            if (!xQueueReceive(refQueue, (void *) &speed, (TickType_t) 0)) {
+//                // Handle error.
+//            }
+//        }
 
         if (speed < 0) {
             timer_setChannelPulse(TIM3, Channel_1, 0);

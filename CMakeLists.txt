@@ -32,7 +32,7 @@ SET(USER_SOURCES
         src/interrupts.cpp
 #        src/microSdTask.cpp
         src/ctrlTask.cpp
-        src/comTask.cpp
+        src/gpsTask.cpp
         src/variables.c
         lib/HC_12/hc12.c
         lib/stm32f1_hal/src/stm32f103_dbg.c

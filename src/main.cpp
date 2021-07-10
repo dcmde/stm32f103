@@ -1,7 +1,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 //#include <task/ctrlTask.hpp>
-#include <task/comTask.hpp>
+#include <task/gpsTask.hpp>
 #include <task/variables.h>
 
 #define IDLE_TASK_SIZE 50
@@ -20,7 +20,7 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
 
 int main() {
 //    xTaskCreate(ctrlTask, "ctrl", 128, nullptr, 1, &ctrlTaskHandle);
-    comTaskHandle = xTaskCreateStatic(comTask, "com", STACK_SIZE, nullptr, 1, comTaskStack, &comTaskBuffer);
+    gpsTaskHandle = xTaskCreateStatic(gpsTask, "com", STACK_SIZE, nullptr, 1, gpsTaskStack, &gpsTaskBuffer);
     vTaskStartScheduler();
     return 0;
 }

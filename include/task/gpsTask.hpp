@@ -3,6 +3,6 @@
 
 #include "variables.h"
 
-[[noreturn]] void comTask(void *p);
+[[noreturn]] void gpsTask(void *p);
 
 #endif //COMTASK_HPP

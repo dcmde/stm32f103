@@ -1,5 +1,5 @@
 #include <stm32f10x_dma.h>
-#include "task/comTask.hpp"
+#include "task/gpsTask.hpp"
 #include "hc12.h"
 #include "usart.h"
 #include "gpio.hpp"
@@ -8,8 +8,8 @@ void configure_DMA();
 
 char nmeaBuffer[BUFFER_LEN], tempBuffer[BUFFER_LEN];
 
-[[noreturn]] void comTask(void *p) {
-    refQueue = xQueueCreateStatic(QUEUE_LENGTH, ITEM_SIZE, comQueueStorageArea, &comStaticQueue);
+[[noreturn]] void gpsTask(void *p) {
+    uint8_t gps_buffer_head = (BUFFER_LEN - 1), gps_buffer_tail;
 
     Gpio::setPin(A3, GPIO_Mode_IN_FLOATING);
 
@@ -18,16 +18,16 @@ char nmeaBuffer[BUFFER_LEN], tempBuffer[BUFFER_LEN];
     configure_DMA();
 
     while (1) {
-        if (idle_flag) {
-            idle_flag = 0;
-            if (nmeaBuffer[buffer_head] == '\n' && nmeaBuffer[buffer_tail] == '$') {
+        if (xTaskNotifyWait(0, 0, NULL, portMAX_DELAY) == pdTRUE) {
+            gps_buffer_tail = (gps_buffer_head + 1) % BUFFER_LEN;
+            gps_buffer_head = BUFFER_LEN - DMA1_Channel6->CNDTR - 1;
+            if (nmeaBuffer[gps_buffer_head] == '\n' && nmeaBuffer[gps_buffer_tail] == '$') {
                 uint8_t j = 0;
-                for (uint8_t i = buffer_tail; i != buffer_head; i = (i + 1) % BUFFER_LEN) {
+                for (uint8_t i = gps_buffer_tail; i != gps_buffer_head; i = (i + 1) % BUFFER_LEN) {
                     tempBuffer[j++] = nmeaBuffer[i];
                 }
             }
         }
-        vTaskDelay(50);
     }
 }
 

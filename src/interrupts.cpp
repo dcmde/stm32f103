@@ -1,8 +1,5 @@
-//#include <diskio.h>
 #include <stm32f10x.h>
-//#include <stm32f10x_tim.h>
 #include <stm32f10x_usart.h>
-#include <stm32f10x_dma.h>
 #include <task/variables.h>
 #include <cstdio>
 
@@ -86,11 +83,11 @@ void SPI2_IRQHandler(void) {}
 void USART1_IRQHandler(void) {}
 
 void USART2_IRQHandler(void) {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     if (USART_GetITStatus(USART2, USART_IT_IDLE) != RESET) {
         USART2->DR;
-        idle_flag = 1;
-        buffer_tail = (buffer_head + 1) % BUFFER_LEN;
-        buffer_head = BUFFER_LEN - DMA1_Channel6->CNDTR - 1;
+        xTaskNotifyFromISR(gpsTaskHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
 }
 
