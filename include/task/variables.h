@@ -9,7 +9,6 @@ extern "C" {
 #endif
 
 #define STACK_SIZE      200
-#define BUFFER_LEN   74
 
 extern TaskHandle_t gpsTaskHandle;
 extern StackType_t gpsTaskStack[];

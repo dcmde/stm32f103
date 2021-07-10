@@ -6,10 +6,11 @@
 
 void configure_DMA();
 
-char nmeaBuffer[BUFFER_LEN], tempBuffer[BUFFER_LEN];
+const uint8_t gps_buffer_len = 74;
+char nmeaBuffer[gps_buffer_len], tempBuffer[gps_buffer_len];
 
 [[noreturn]] void gpsTask(void *p) {
-    uint8_t gps_buffer_head = (BUFFER_LEN - 1), gps_buffer_tail;
+    uint8_t gps_buffer_head = (gps_buffer_len - 1), gps_buffer_tail;
 
     Gpio::setPin(A3, GPIO_Mode_IN_FLOATING);
 
@@ -19,11 +20,11 @@ char nmeaBuffer[BUFFER_LEN], tempBuffer[BUFFER_LEN];
 
     while (1) {
         if (xTaskNotifyWait(0, 0, NULL, portMAX_DELAY) == pdTRUE) {
-            gps_buffer_tail = (gps_buffer_head + 1) % BUFFER_LEN;
-            gps_buffer_head = BUFFER_LEN - DMA1_Channel6->CNDTR - 1;
+            gps_buffer_tail = (gps_buffer_head + 1) % gps_buffer_len;
+            gps_buffer_head = gps_buffer_len - DMA1_Channel6->CNDTR - 1;
             if (nmeaBuffer[gps_buffer_head] == '\n' && nmeaBuffer[gps_buffer_tail] == '$') {
                 uint8_t j = 0;
-                for (uint8_t i = gps_buffer_tail; i != gps_buffer_head; i = (i + 1) % BUFFER_LEN) {
+                for (uint8_t i = gps_buffer_tail; i != gps_buffer_head; i = (i + 1) % gps_buffer_len) {
                     tempBuffer[j++] = nmeaBuffer[i];
                 }
             }
@@ -37,7 +38,7 @@ void configure_DMA() {
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 
     DMA_DeInit(DMA1_Channel6);
-    DMA_InitStructure.DMA_BufferSize = BUFFER_LEN;
+    DMA_InitStructure.DMA_BufferSize = gps_buffer_len;
     DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
     DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) nmeaBuffer;
