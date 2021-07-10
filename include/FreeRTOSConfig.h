@@ -36,8 +36,8 @@ standard names. */
 #define configENABLE_BACKWARD_COMPATIBILITY     0
 
 /* Memory allocation related definitions. */
-#define configSUPPORT_STATIC_ALLOCATION         0
-#define configSUPPORT_DYNAMIC_ALLOCATION        1
+#define configSUPPORT_STATIC_ALLOCATION         1
+#define configSUPPORT_DYNAMIC_ALLOCATION        0
 #define configTOTAL_HEAP_SIZE                   ( ( size_t ) ( 5 * 1024 ) )
 
 /* Hook function related definitions. */

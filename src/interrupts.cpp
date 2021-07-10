@@ -47,13 +47,14 @@ void DMA1_Channel4_IRQHandler(void) {}
 void DMA1_Channel5_IRQHandler(void) {}
 
 void DMA1_Channel6_IRQHandler(void) {
-    if (DMA_GetITStatus(DMA1_IT_TC6) != RESET) {
-        SET_BIT(DMA1->IFCR, DMA_IFCR_CTCIF6);
-        dma_ht_flag = 0;
-    } else if (DMA_GetITStatus(DMA1_IT_HT6) != RESET) {
-        SET_BIT(DMA1->IFCR, DMA_IFCR_CHTIF6);
-        dma_ht_flag = 1;
-    }
+//    if (DMA_GetITStatus(DMA1_IT_TC6) != RESET) {
+//        SET_BIT(DMA1->IFCR, DMA_IFCR_CTCIF6);
+//        buffer_tail = (buffer_head + 1) % BUFFER_LEN;
+//        buffer_head = DMA1_Channel6->CNDTR;
+//    } else if (DMA_GetITStatus(DMA1_IT_HT6) != RESET) {
+//        SET_BIT(DMA1->IFCR, DMA_IFCR_CHTIF6);
+//        dma_ht_flag = 1;
+//    }
 }
 
 void DMA1_Channel7_IRQHandler(void) {}
@@ -87,6 +88,9 @@ void USART1_IRQHandler(void) {}
 void USART2_IRQHandler(void) {
     if (USART_GetITStatus(USART2, USART_IT_IDLE) != RESET) {
         USART2->DR;
+        idle_flag = 1;
+        buffer_tail = (buffer_head + 1) % BUFFER_LEN;
+        buffer_head = BUFFER_LEN - DMA1_Channel6->CNDTR - 1;
     }
 }
 

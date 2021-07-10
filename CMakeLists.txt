@@ -17,7 +17,7 @@ project(template C CXX ASM)
 include_directories(include
         lib/HC_12/include
         lib/FreeRTOS-Kernel/include
-        lib/drivers/include/ff11
+#        lib/drivers/include/ff11
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/STM32F10x_StdPeriph_Driver/inc
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/CoreSupport
@@ -28,9 +28,9 @@ include_directories(include
 # Source files directory
 SET(USER_SOURCES
         src/main.cpp
-        src/heap_4.c
+#        src/heap_4.c
         src/interrupts.cpp
-        src/microSdTask.cpp
+#        src/microSdTask.cpp
         src/ctrlTask.cpp
         src/comTask.cpp
         src/variables.c
@@ -41,11 +41,11 @@ SET(USER_SOURCES
         lib/stm32f1_hal/src/spi.c
         lib/stm32f1_hal/src/i2c.c
         lib/stm32f1_hal/src/usart.c
-        lib/drivers/src/ff11/ff.c
-        lib/drivers/src/ff11/diskio.c
-        lib/drivers/src/ff11/diskio-spi-wrapper.c
-        lib/drivers/src/bme280.c
-        lib/drivers/src/mpu6050.c
+#        lib/drivers/src/ff11/ff.c
+#        lib/drivers/src/ff11/diskio.c
+#        lib/drivers/src/ff11/diskio-spi-wrapper.c
+#        lib/drivers/src/bme280.c
+#        lib/drivers/src/mpu6050.c
         lib/FreeRTOS-Kernel/croutine.c
         lib/FreeRTOS-Kernel/event_groups.c
         lib/FreeRTOS-Kernel/list.c
@@ -87,7 +87,7 @@ SET(CMSIS_SOURCES
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/TrueSTUDIO/startup_stm32f10x_md.s)
 
 # C flags with and without printf
-SET(COMMON_FLAGS "-g -O0 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -u _printf_float -flto -specs=nano.specs -specs=nosys.specs")
+SET(COMMON_FLAGS "-g -O0 -Wall -ffunction-sections -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -flto -specs=nano.specs -specs=nosys.specs")
 #SET(COMMON_FLAGS "-g -O1 -Wall -DSTM32F103x6 -DUSE_STDPERIPH_DRIVER -mcpu=cortex-m3 -mthumb -mthumb-interwork -mfpu=vfp -msoft-float -mfix-cortex-m3-ldrd -ffreestanding -lc -flto -specs=nano.specs -specs=nosys.specs")
 
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -std=c++11")
