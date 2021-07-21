@@ -56,6 +56,7 @@ SET(USER_SOURCES
         lib/FreeRTOS-Kernel/tasks.c
         lib/FreeRTOS-Kernel/timers.c
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/port.c
+        src/encoderTask.cpp
         )
 
 SET(SPL_SOURCES

@@ -2,3 +2,4 @@
 
 TaskHandle_t gpsTaskHandle;
 TaskHandle_t ctrlTaskHandle;
+TaskHandle_t encoderTaskHandle;

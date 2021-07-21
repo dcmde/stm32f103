@@ -10,6 +10,7 @@ extern "C" {
 
 extern TaskHandle_t gpsTaskHandle;
 extern TaskHandle_t ctrlTaskHandle;
+extern TaskHandle_t encoderTaskHandle;
 
 #ifdef __cplusplus
 }

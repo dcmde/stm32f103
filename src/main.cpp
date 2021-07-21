@@ -2,6 +2,7 @@
 #include <task.h>
 #include <task/ctrlTask.hpp>
 #include <task/gpsTask.hpp>
+#include <task/encoderTask.hpp>
 #include <task/variables.h>
 
 #define IDLE_TASK_SIZE 50
@@ -12,6 +13,9 @@ StackType_t ctrlTaskStack[STACK_SIZE];
 
 StaticTask_t gpsTaskBuffer;
 StackType_t gpsTaskStack[STACK_SIZE];
+
+StaticTask_t encoderTaskBuffer;
+StackType_t encoderTaskStack[STACK_SIZE];
 
 
 #if configSUPPORT_STATIC_ALLOCATION
@@ -29,9 +33,10 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
 #endif
 
 int main() {
-//    xTaskCreate(ctrlTask, "ctrl", 128, nullptr, 1, &ctrlTaskHandle);
     gpsTaskHandle = xTaskCreateStatic(gpsTask, "com", STACK_SIZE, nullptr, 1, gpsTaskStack, &gpsTaskBuffer);
     ctrlTaskHandle = xTaskCreateStatic(ctrlTask, "ctrl", STACK_SIZE, nullptr, 1, ctrlTaskStack, &ctrlTaskBuffer);
+    encoderTaskHandle = xTaskCreateStatic(encoderTask, "encoder", STACK_SIZE, nullptr, 1, encoderTaskStack,
+                                          &encoderTaskBuffer);
     vTaskStartScheduler();
     return 0;
 }
