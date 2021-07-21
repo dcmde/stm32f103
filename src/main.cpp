@@ -5,6 +5,14 @@
 #include <task/variables.h>
 
 #define IDLE_TASK_SIZE 50
+#define STACK_SIZE      200
+
+StaticTask_t ctrlTaskBuffer;
+StackType_t ctrlTaskStack[STACK_SIZE];
+
+StaticTask_t gpsTaskBuffer;
+StackType_t gpsTaskStack[STACK_SIZE];
+
 
 #if configSUPPORT_STATIC_ALLOCATION
 /* static memory allocation for the IDLE task */
