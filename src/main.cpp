@@ -1,6 +1,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 #include <task/ctrlTask.hpp>
+#include <task/comTask.hpp>
 #include <task/gpsTask.hpp>
 #include <task/encoderTask.hpp>
 #include <task/variables.h>
@@ -17,6 +18,8 @@ StackType_t gpsTaskStack[STACK_SIZE];
 StaticTask_t encoderTaskBuffer;
 StackType_t encoderTaskStack[STACK_SIZE];
 
+StaticTask_t comTaskBuffer;
+StackType_t comTaskStack[STACK_SIZE];
 
 #if configSUPPORT_STATIC_ALLOCATION
 /* static memory allocation for the IDLE task */
@@ -33,10 +36,11 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
 #endif
 
 int main() {
-    gpsTaskHandle = xTaskCreateStatic(gpsTask, "com", STACK_SIZE, nullptr, 1, gpsTaskStack, &gpsTaskBuffer);
+    gpsTaskHandle = xTaskCreateStatic(gpsTask, "gps", STACK_SIZE, nullptr, 1, gpsTaskStack, &gpsTaskBuffer);
     ctrlTaskHandle = xTaskCreateStatic(ctrlTask, "ctrl", STACK_SIZE, nullptr, 1, ctrlTaskStack, &ctrlTaskBuffer);
     encoderTaskHandle = xTaskCreateStatic(encoderTask, "encoder", STACK_SIZE, nullptr, 1, encoderTaskStack,
                                           &encoderTaskBuffer);
+    comTaskHandle = xTaskCreateStatic(comTask, "com", STACK_SIZE, nullptr, 1, comTaskStack, &comTaskBuffer);
     vTaskStartScheduler();
     return 0;
 }

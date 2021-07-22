@@ -18,7 +18,7 @@ include_directories(include
         lib/HC_12/include
         lib/nmea/include
         lib/FreeRTOS-Kernel/include
-#        lib/drivers/include/ff11
+        #        lib/drivers/include/ff11
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/STM32F10x_StdPeriph_Driver/inc
         lib/STM32F10x_StdPeriph_Lib_V3.3.0/Libraries/CMSIS/CM3/CoreSupport
@@ -29,9 +29,9 @@ include_directories(include
 # Source files directory
 SET(USER_SOURCES
         src/main.cpp
-#        src/heap_4.c
+        #        src/heap_4.c
         src/interrupts.cpp
-#        src/microSdTask.cpp
+        #        src/microSdTask.cpp
         src/ctrlTask.cpp
         src/gpsTask.cpp
         src/variables.c
@@ -43,11 +43,11 @@ SET(USER_SOURCES
         lib/stm32f1_hal/src/spi.c
         lib/stm32f1_hal/src/i2c.c
         lib/stm32f1_hal/src/usart.c
-#        lib/drivers/src/ff11/ff.c
-#        lib/drivers/src/ff11/diskio.c
-#        lib/drivers/src/ff11/diskio-spi-wrapper.c
-#        lib/drivers/src/bme280.c
-#        lib/drivers/src/mpu6050.c
+        #        lib/drivers/src/ff11/ff.c
+        #        lib/drivers/src/ff11/diskio.c
+        #        lib/drivers/src/ff11/diskio-spi-wrapper.c
+        #        lib/drivers/src/bme280.c
+        #        lib/drivers/src/mpu6050.c
         lib/FreeRTOS-Kernel/croutine.c
         lib/FreeRTOS-Kernel/event_groups.c
         lib/FreeRTOS-Kernel/list.c
@@ -57,6 +57,7 @@ SET(USER_SOURCES
         lib/FreeRTOS-Kernel/timers.c
         lib/FreeRTOS-Kernel/portable/GCC/ARM_CM3/port.c
         src/encoderTask.cpp
+        src/comTask.cpp
         )
 
 SET(SPL_SOURCES

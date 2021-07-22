@@ -1,8 +1,8 @@
-#ifndef COMTASK_HPP
-#define COMTASK_HPP
+#ifndef GPSTASK_HPP
+#define GPSTASK_HPP
 
 #include "variables.h"
 
 [[noreturn]] void gpsTask(void *p);
 
-#endif //COMTASK_HPP
+#endif //GPSTASK_HPP

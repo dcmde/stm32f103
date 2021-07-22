@@ -80,7 +80,15 @@ void I2C2_EV_IRQHandler(void) {}
 void I2C2_ER_IRQHandler(void) {}
 void SPI1_IRQHandler(void) {}
 void SPI2_IRQHandler(void) {}
-void USART1_IRQHandler(void) {}
+
+void USART1_IRQHandler(void) {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
+        USART1->DR;
+        xTaskNotifyFromISR(comTaskHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+}
 
 void USART2_IRQHandler(void) {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
