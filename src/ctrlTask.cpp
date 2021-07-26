@@ -33,7 +33,7 @@ void ctrl_config_pins();
 }
 
 void ctrl_config_timers() {
-    timer_init(TIM3, Div_1, 360, 128, Up);
+    timer_init(TIM3, Div_1, 3600, 128, Up);
     timer_setPWM(TIM3, PWM_1, Channel_1, 0, High);
     timer_setPWM(TIM3, PWM_1, Channel_2, 0, High);
     timer_setPWM(TIM3, PWM_1, Channel_3, 0, High);
