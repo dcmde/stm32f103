@@ -85,7 +85,7 @@ void USART1_IRQHandler(void) {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     if (USART_GetITStatus(USART1, USART_IT_IDLE) != RESET) {
         USART1->DR;
-        xTaskNotifyFromISR(comTaskHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
+        xTaskNotifyFromISR(ctrlTaskHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
 }

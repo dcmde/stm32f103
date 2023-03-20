@@ -6,13 +6,13 @@
 #include <gpio.hpp>
 
 const uint32_t com_buffer_size = 4;
-uint8_t joyStickInput[3];
+uint8_t joyStickInput1[3];
 
-void configureUART();
+void configureUART1();
 
 [[noreturn]] void comTask(void *p) {
 
-    configureUART();
+    configureUART1();
 
     while (1) {
         if (xTaskNotifyWait(0, 0, NULL, portMAX_DELAY) == pdTRUE) {
@@ -21,7 +21,7 @@ void configureUART();
     }
 }
 
-void configureUART() {
+void configureUART1() {
     USART_InitTypeDef USART_InitStruct;
     NVIC_InitTypeDef NVIC_InitStruct;
     DMA_InitTypeDef DMA_InitStructure;
@@ -57,7 +57,7 @@ void configureUART() {
     DMA_InitStructure.DMA_BufferSize = 3;
     DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
     DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-    DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) joyStickInput;
+    DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) joyStickInput1;
     DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
     DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
     DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;

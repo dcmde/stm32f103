@@ -40,7 +40,7 @@ int main() {
     ctrlTaskHandle = xTaskCreateStatic(ctrlTask, "ctrl", STACK_SIZE, nullptr, 1, ctrlTaskStack, &ctrlTaskBuffer);
     encoderTaskHandle = xTaskCreateStatic(encoderTask, "encoder", STACK_SIZE, nullptr, 1, encoderTaskStack,
                                           &encoderTaskBuffer);
-    comTaskHandle = xTaskCreateStatic(comTask, "com", STACK_SIZE, nullptr, 1, comTaskStack, &comTaskBuffer);
+    //comTaskHandle = xTaskCreateStatic(comTask, "com", STACK_SIZE, nullptr, 1, comTaskStack, &comTaskBuffer);
     vTaskStartScheduler();
     return 0;
 }
